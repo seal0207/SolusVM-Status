@@ -15,12 +15,12 @@ function post($action) {
 
 	// <configure> :
 
-	$postfields["key"] = "YOUR API KEY";
-	$postfields["hash"] = "YOUR API HASH";
+	$postfields["key"] = "key";
+	$postfields["hash"] = "hash";
 	
 	// This is the hostname of the master SolusVM server where you go to boot / reboot / configure / reinstall / get API keys for your VPS
 	
-	$masterurl = "https://master.vpshost.tld";
+	$masterurl = "https://url";
 	
 	// </configure>
 	
@@ -127,7 +127,7 @@ switch($action)
 		if($result['error'] == 0) {
 			$return = $result;
 			
-			$return['message'] = "Server rebooting now.";
+			$return['message'] = "服务器正在重启！";
 		} else {
 			$return = $result;
 		}
@@ -140,7 +140,7 @@ switch($action)
 		if($result['error'] == 0) {
 			$return = $result;
 			
-			$return['message'] = "Server booting now.";
+			$return['message'] = "服务器已经启动。";
 		} else {
 			$return = $result;
 		}
@@ -153,7 +153,7 @@ switch($action)
 		if($result['error'] == 0) {
 			$return = $result;
 			
-			$return['message'] = "Server shutting down now.";
+			$return['message'] = "服务器现在关闭。";
 		} else {
 			$return = $result;
 		}
@@ -162,7 +162,7 @@ switch($action)
 	
 	default:
 		$return['error'] = 1;
-		$return['message'] = "Invalid action specified.";
+		$return['message'] = "无效的操作 ";
 }
 
 ?>
@@ -170,47 +170,47 @@ switch($action)
 <!doctype html>
 <html>
 <head>
-	<title>SolusVM-Status</title>
+	<title>主机监控管理页面</title>
 	<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
 <body>
 	<div style="width: 90%; max-width: 800px; margin: 0 auto;">
-		<h1>SolusVM-Status</h1>
+		<h1>主机监控管理页面</h1>
 		<hr/>
 		
 		<?php if($return['error'] == 1) { ?>
 			<div class="alert alert-danger" role="alert"><?php echo $return['message']; ?></div>
 			
-			<a class="btn btn-default btn-block" href="?action=info" role="button">Return to status page</a>
+			<a class="btn btn-default btn-block" href="?action=info" role="button">返回主机信息页面</a>
 		<?php } else { ?>
 		
 		<?php if($action == "info") { ?>
 		
-			<h3>Hostname</h3>
+			<h3>主机名</h3>
 			<?php echo $return['hostname']; ?>
 			
-			<h3>Status</h3>
+			<h3>状态</h3>
 			<?php echo $return['vmstat']; ?>
 			
-			<h3>IP Address</h3>
+			<h3>IP 地址</h3>
 			<?php echo $return['ipaddress']; ?>
 		
-			<h3>Hard Disk usage <small><?php echo humanFileSize($return['hdd'][1]); ?> used of <?php echo humanFileSize($return['hdd'][0]); ?></small></h3>
+			<h3>硬盘使用情况 <small><?php echo humanFileSize($return['hdd'][1]); ?> 已经使用 <?php echo humanFileSize($return['hdd'][0]); ?></small></h3>
 			<div class="progress">
 				<div class="progress-bar" role="progressbar" aria-valuenow="<?php echo $return['hdd'][3]; ?>" aria-valuemin="0" aria-valuemax="100" style="width: <?php echo $return['hdd'][3]; ?>%;">
 					<?php echo $return['hdd'][3]; ?>%
 				</div>
 			</div>
 		
-			<h3>RAM usage <small><?php echo humanFileSize($return['mem'][1]); ?> used of <?php echo humanFileSize($return['mem'][0]); ?></small></h3>
+			<h3>内存使用情况 <small><?php echo humanFileSize($return['mem'][1]); ?> 已经使用 <?php echo humanFileSize($return['mem'][0]); ?></small></h3>
 			<div class="progress">
 				<div class="progress-bar" role="progressbar" aria-valuenow="<?php echo $return['mem'][3]; ?>" aria-valuemin="0" aria-valuemax="100" style="width: <?php echo $return['mem'][3]; ?>%;">
 					<?php echo $return['mem'][3]; ?>%
 				</div>
 			</div>
 		
-			<h3>Bandwith usage <small><?php echo humanFileSize($return['bw'][1]); ?> used of <?php echo humanFileSize($return['bw'][0]); ?></small></h3>
+			<h3>流量使用情况 <small><?php echo humanFileSize($return['bw'][1]); ?> 已经使用 <?php echo humanFileSize($return['bw'][0]); ?></small></h3>
 			<div class="progress">
 				<div class="progress-bar" role="progressbar" aria-valuenow="<?php echo $return['bw'][3]; ?>" aria-valuemin="0" aria-valuemax="100" style="width: <?php echo $return['bw'][3]; ?>%;">
 					<?php echo $return['bw'][3]; ?>%
@@ -220,16 +220,16 @@ switch($action)
 			
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					<h3 class="panel-title">Actions</h3>
+					<h3 class="panel-title">操作页面</h3>
 				</div>
 				
 				<div class="panel-body">
 				<?php if($return['vmstat'] == "offline") { ?>
-					<a class="btn btn-primary btn-block" href="?action=boot" role="button">Boot</a>
+					<a class="btn btn-primary btn-block" href="?action=boot" role="button">启动</a>
 				<?php } else { ?>
-					<a class="btn btn-primary btn-block" href="?action=shutdown" role="button">Shutdown</a>
-					<a class="btn btn-primary btn-block" href="?action=reboot" role="button">Reboot</a>
-					<a class="btn btn-default btn-block" href="?action=info" role="button">Reload the page</a>
+					<a class="btn btn-primary btn-block" href="?action=shutdown" role="button">关机</a>
+					<a class="btn btn-primary btn-block" href="?action=reboot" role="button">重启</a>
+					<a class="btn btn-default btn-block" href="?action=info" role="button">刷新页面</a>
 				<?php } ?>
 				</div>
 			</div>
@@ -242,15 +242,16 @@ switch($action)
 			<div class="alert alert-success" role="alert"><?php echo $return['message']; ?></div>
 			<?php } ?>
 			
-			<a class="btn btn-default btn-block" href="?action=info" role="button">Return to status page</a>
+			<a class="btn btn-default btn-block" href="?action=info" role="button">返回主机信息页面</a>
 			
 		<?php } ?>
 		
 		
 		<?php } ?>
-		<footer style="margin: 20px 0; text-align: center;">
+		<!--		<footer style="margin: 20px 0; text-align: center;">
 			<a href="https://github.com/cuonic/SolusVM-Status" target="_blank">SolusVM-Status</a> by Cuonic
 		</footer>
+		-->
 	</div>
 </body>
 </html>
